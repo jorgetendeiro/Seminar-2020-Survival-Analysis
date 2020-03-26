@@ -28,6 +28,7 @@ nocite: |
 
 
 ```{r, include=FALSE}
+library(Deriv)
 library(ggplot2)
 library(pander)
 library(kableExtra)
@@ -36,40 +37,129 @@ panderOptions('round', 3)
 panderOptions('keep.trailing.zeros', TRUE)
 ```
 
-# Bayes rule
+# Plan for today
 
-- $\mathcal{D}=$ data
-- $\theta=$ unknown parameter
+Gentle introduction to survival analysis.
+\vfill
 
+*Source:*\newline
+Harrell, F. E., Jr. (2015). *Regression Modeling strategies*, 2nd edition. Springer
+
+*Chapters:*\newline
+17, 18, and 20.
+
+# Survival analysis (SA)
+
+*\alert{Data:}*\newline
+For which the *time until the event* is of interest. 
+
+- This goes beyond *logistic regression*, which focuses on the *occurrence* of the event.
+\vfill
+
+*\alert{Outcome variable:}*
+
+- $T$ = Time until the event.
+- Often referred to as *failure time*, *survival time*, or *event time*. 
+
+# Advantages of SA over typical regression models
+
+- SA allows modeling units that did not fail up to data collection (*censored on the right* data).
+- Regression could be considered to model the expected survival time. *But*:
+    - Survival time is often not normally distributed.
+    - $P(\text{survival}>t)$ is often more interesting than $\mathbb{E}(\text{survival time})$.
+
+# Censoring
+
+We focus on 
+
+# Three main functions
+
+Recall that the outcome variable is $T=$ time until event.
+
+- \alert{Survival function:}
 $$
-\fbox{$p(\theta|\mathcal{D}) = \frac{p(\theta)p(\mathcal{D}|\theta)}{p(\mathcal{D})}$}
+S(t) = P(T > t) = 1 - F(t),
+$$
+where $F = P(T\leq t)$ is distribution function of $T$.
+
+- \alert{Cumulative hazard function:}
+$$
+\Lambda(t) = -\log(S(t))
+$$
+- \alert{Hazard function:}
+$$
+\lambda(t) = \Lambda'(t)
 $$
 
-In words,
-
+# Survival function
 $$
-\fbox{$\text{posterior} = \frac{\text{prior} \times \text{likelihood}}{\text{evidence}}$}
+\fbox{$S(t) = P(T > t) = 1 - F(t)$}
 $$
+\vfill
 
-The *evidence* does not depend on $\theta$; let's hide it: 
+*\alert{Example:}*\newline
+If event $=$ death, then $S(t)=$ prob. that death occurs after time $t$.
 
+*\alert{Properties:}*
+
+- $S(0) = 1$.
+- Non-increasing function of $t$.
+
+```{r, echo = FALSE, out.width = '80%', fig.align = 'center'}
+knitr::include_graphics("include/figures/survival_func.png")
+```
+
+# Cumulative hazard function
 $$
-\fbox{$\text{posterior} \propto \text{prior} \times \text{likelihood}$}
+\fbox{$\Lambda(t) = -\log(S(t))$}
 $$
-The symbol $\propto$ means "proportional to". 
+\vfill
 
+*\alert{Idea:}*\newline
+Accumulated risk up until time $t$.
 
+*\alert{Properties:}*
 
+- $\Lambda(0) = 0$.
+- Non-decreasing function of $t$.
 
+```{r, echo = FALSE, out.width = '80%', fig.align = 'center'}
+knitr::include_graphics("include/figures/cum_hazard_func.png")
+```
 
+# Hazard function
+$$
+\fbox{$\lambda(t) = \Lambda'(t)$}
+$$
+\vfill
 
+*\alert{Idea:}*\newline
+Instantaneous event rate. 
+\vfill
 
+```{r, echo = FALSE, out.width = '80%', fig.align = 'center'}
+knitr::include_graphics("include/figures/hazard_func.png")
+```
 
+# Relation between the three function
 
+*\alert{All functions are related:}*\newline
+Any two functions can be derived from the third function.
 
+- The three functions are \alert{equivalent ways} of describing the same random variable ($T=$ time until event).
+\vfill
 
+```{r, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
 
-
+tabl <- " 
+| Given\\ldots   | $S(t)$         | $\\Lambda(t)$          | $\\lambda(t)$                                                 |
+|----------------|:--------------:|:----------------------:|:-------------------------------------------------------------:|
+| $S(t)=$        | $\\cdot$       | $\\exp(-\\Lambda(t))$  | $\\exp\\left(-\\displaystyle\\int_0^t \\lambda(v) dv\\right)$ |
+| $\\Lambda(t)=$ | $-log(S(t))$   | $\\cdot$               | $\\displaystyle\\int_0^t \\lambda(v) dv$                      |
+| $\\lambda(t)=$ | $-\\frac{S'(t)}{S(t)}$ | $\\Lambda'(t)$ | $\\cdot$                                                      |
+"
+cat(tabl) 
+```
 
 
 

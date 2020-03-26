@@ -1,0 +1,17 @@
+```{r echo = FALSE, results = 'hide', eval = FALSE}
+S <- function(t, mu, sig) 1 - pnorm((log(t) - mu) / sig)
+L <- function(t, mu, sig) -log(S(t, mu, sig))
+
+png(filename = "../figures/cum_hazard_func.png", 
+    width = 20, height = 10, units = "cm", pointsize = 10, res = 600)
+par(mar = c(4, 6.5, 2.5, 5), bg = NA)
+
+curve(L(x, 1, 1), 0, 10, ylim = c(0, 2.5), las = 1, bty = "n", 
+      xlab = "t", ylab = expression(paste(Lambda, "(t)")), xaxs = "i", yaxs = "i", 
+      lwd = 2, col = "#48603D")
+segments(c(6, 6), c(0, L(6, 1, 1)), c(6, 0), c(L(6, 1, 1), L(6, 1, 1)), 
+         lty = 2, col = "#48603D")
+points(6, L(6, 1, 1), pch = 21, bg = "white", col = "#48603D", cex = 1.5, lwd = 2)
+text(6.75, 1.4, expression(italic("L(6) = 1.54")), col = "#48603D")
+dev.off()
+```

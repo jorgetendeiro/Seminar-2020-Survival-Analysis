@@ -1,0 +1,16 @@
+```{r echo = FALSE, results = 'hide', eval = FALSE}
+S <- function(t, mu, sig) 1 - pnorm((log(t) - mu) / sig)
+
+png(filename = "../figures/survival_func.png", 
+    width = 20, height = 10, units = "cm", pointsize = 10, res = 600)
+par(mar = c(4, 6.5, 2.5, 5), bg = NA)
+
+curve(S(x, 1, 1), 0, 10, ylim = c(0, 1), las = 1, bty = "n", 
+      xlab = "t", ylab = "S(t)", xaxs = "i", yaxs = "i", 
+      lwd = 2, col = "#48603D")
+segments(c(6, 6), c(0, S(6, 1, 1)), c(6, 0), c(S(6, 1, 1), S(6, 1, 1)), 
+         lty = 2, col = "#48603D")
+points(6, S(6, 1, 1), pch = 21, bg = "white", col = "#48603D", cex = 1.5, lwd = 2)
+text(7, .27, expression(italic("S(6) = P(T > 6) = .21")), col = "#48603D")
+dev.off()
+```
