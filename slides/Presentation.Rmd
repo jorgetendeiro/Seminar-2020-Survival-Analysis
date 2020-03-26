@@ -1,0 +1,77 @@
+---
+# The template from these slides is inspired in that from [Mark Andrews](https://github.com/mark-andrews/sips2019)
+title: "Introduction to survival analysis"
+# subtitle: ""
+author: |
+  | Jorge N. Tendeiro
+  |
+  | Department of Psychometrics and Statistics
+  | Faculty of Behavioral and Social Sciences
+  | University of Groningen
+  |   
+  | \faEnvelopeO\  ```j.n.tendeiro@rug.nl```
+  | \faGlobe\ ```www.jorgetendeiro.com```
+  | \faGithub\ ```jorgetendeiro/Seminar-2020-Survival-Analysis```
+fontsize: 10pt
+output:
+ beamer_presentation:
+ # keep_tex: true
+  fonttheme: "serif"
+  includes:
+   in_header: include/preamble.tex
+bibliography: include/references.bib
+csl: 'include/apa-old-doi-prefix.csl'
+nocite: |
+  @forder2019hearing
+---
+
+
+
+```{r, include=FALSE}
+library(ggplot2)
+library(pander)
+library(kableExtra)
+library(pscl)
+panderOptions('round', 3)
+panderOptions('keep.trailing.zeros', TRUE)
+```
+
+# Bayes rule
+
+- $\mathcal{D}=$ data
+- $\theta=$ unknown parameter
+
+$$
+\fbox{$p(\theta|\mathcal{D}) = \frac{p(\theta)p(\mathcal{D}|\theta)}{p(\mathcal{D})}$}
+$$
+
+In words,
+
+$$
+\fbox{$\text{posterior} = \frac{\text{prior} \times \text{likelihood}}{\text{evidence}}$}
+$$
+
+The *evidence* does not depend on $\theta$; let's hide it: 
+
+$$
+\fbox{$\text{posterior} \propto \text{prior} \times \text{likelihood}$}
+$$
+The symbol $\propto$ means "proportional to". 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
