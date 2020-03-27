@@ -61,6 +61,22 @@ For which the *time until the event* is of interest.
 - $T$ = Time until the event.
 - Often referred to as *failure time*, *survival time*, or *event time*. 
 
+# Examples
+
+*\alert{Survival time: }* Time until\ldots
+
+- death, desease, relapse.
+\vfill
+
+*\alert{Failure time: }* Time until\ldots
+
+- product malfunction.
+\vfill
+
+*\alert{Event time: }* Time until\ldots
+
+- graduation, marriage, divorce.
+
 # Advantages of SA over typical regression models
 
 - SA allows modeling units that did not fail up to data collection (*censored on the right* data).
