@@ -195,16 +195,45 @@ Instead: Let's plot.
 knitr::include_graphics("include/figures/EXP_survival_dist.png")
 ```
 
+# Weibull survival distribution (I)
+
+```{r, echo = FALSE, out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("include/figures/WEIBULL_survival_dist.png")
+```
+
+# Weibull survival distribution (II)
+
+```{r, echo = FALSE, out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("include/figures/WEIBULL2_survival_dist.png")
+```
+
+# Quantiles
+
+*\alert{Q:}* What is the time by which $(100q)\%$ of the population will fail?
+
+*\alert{A:}* Value $t_q$ such that $F(t_q)=q$, or, equiv., $S(t_q)=1-q$.
+\vfill
+
+```{r, echo = FALSE, out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("include/figures/EXP_quantile.png")
+```
+\vfill
+
+In particular, \alert{median} survival time = $t_{.50}$.
+
+# Expected failure time
+
+(Note: $T$ is skewed, so the mean is not the best summary. Better use median.)
 
 
+*\alert{Q:}* What is the expected failure time?
 
+*\alert{A:}* It is the area under the survival function.
+\vfill
 
-
-
-
-
-
-
+```{r, echo = FALSE, out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("include/figures/EXP_mean.png")
+```
 
 
 
