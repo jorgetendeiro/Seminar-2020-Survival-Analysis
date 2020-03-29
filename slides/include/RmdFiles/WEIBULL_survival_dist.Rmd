@@ -1,0 +1,47 @@
+```{r echo = FALSE, results = 'hide', eval = FALSE}
+l <- function(t, a, g) a * g * t^(g-1)
+S <- function(t, a, g) exp(-a * t^g)
+L <- function(t, a, g) a * (t^g) 
+F <- function(t, a, g) pweibull(t, g, a)
+f <- function(t, a, g) dweibull(t, g, a)
+
+# Below: a = 1, g = 4.
+
+png(filename = "../figures/WEIBULL_survival_dist.png", 
+    width = 15, height = 10, units = "cm", pointsize = 10, res = 600)
+layout(matrix(c(1, 3, 2, 4, 5, 5), 2, 3),
+   widths  = c(1, 1, 1), 
+   heights = c(1, 1))
+par(mar = c(2.5, 6.5, .5, .5), bg = NA)
+
+curve(f(x, 1, 1.5), 0, 3, ylim = c(0, 1), las = 1, bty = "n", 
+      xlab = "", xaxt = "n", ylab = "f(t)", xaxs = "i", yaxs = "i", 
+      lwd = 2, col = "#48603D")
+axis(1, at = 0:1)
+mtext("Time", side = 1, line = 1.5, cex = .8)
+# 
+curve(F(x, 1, 4), 0, 2, ylim = c(0, 1), las = 1, bty = "n", 
+      xlab = "", xaxt = "n", ylab = "F(t)", xaxs = "i", yaxs = "i", 
+      lwd = 2, col = "#48603D")
+axis(1, at = 0:1)
+mtext("Time", side = 1, line = 1.5, cex = .8)
+# 
+curve(l(x, 1, 4), 0, 1, ylim = c(0, 4), las = 1, bty = "n", 
+      xlab = "", xaxt = "n", ylab = expression(paste(lambda, "(t)")), xaxs = "i", yaxs = "i", 
+      lwd = 2, col = "#48603D")
+axis(1, at = 0:1)
+mtext("Time", side = 1, line = 1.5, cex = .8)
+# 
+curve(L(x, 1, 4), 0, 1, ylim = c(0, 1), las = 1, bty = "n", 
+      xlab = "", xaxt = "n", ylab = expression(paste(Lambda, "(t)")), xaxs = "i", yaxs = "i", 
+      lwd = 2, col = "#48603D")
+axis(1, at = 0:1)
+mtext("Time", side = 1, line = 1.5, cex = .8)
+# 
+curve(S(x, 1, 4), 0, 1, ylim = c(0, 1.1), las = 1, bty = "n", 
+      xlab = "", xaxt = "n", ylab = "S(t)", xaxs = "i", yaxs = "i", 
+      lwd = 2, col = "#48603D")
+axis(1, at = 0:1)
+mtext("Time", side = 1, line = 1.5, cex = .8)
+dev.off()
+```

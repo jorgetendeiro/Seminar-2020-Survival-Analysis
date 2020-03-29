@@ -118,7 +118,7 @@ If event $=$ death, then $S(t)=$ prob. that death occurs after time $t$.
 
 *\alert{Properties:}*
 
-- $S(0) = 1$.
+- $S(0) = 1$, $S(\infty) = 0$.
 - Non-increasing function of $t$.
 
 ```{r, echo = FALSE, out.width = '80%', fig.align = 'center'}
@@ -150,14 +150,14 @@ $$
 \vfill
 
 *\alert{Idea:}*\newline
-Instantaneous event rate. 
+Instantaneous event rate at time $t$.
 \vfill
 
 ```{r, echo = FALSE, out.width = '80%', fig.align = 'center'}
 knitr::include_graphics("include/figures/hazard_func.png")
 ```
 
-# Relation between the three function
+# Relation between the three functions
 
 *\alert{All functions are related:}*\newline
 Any two functions can be derived from the third function.
@@ -165,17 +165,63 @@ Any two functions can be derived from the third function.
 - The three functions are \alert{equivalent ways} of describing the same random variable ($T=$ time until event).
 \vfill
 
-```{r, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
+More generally, all the following functions give mathematically equivalent specifications of the distribution of $T$:
 
-tabl <- " 
-| Given\\ldots   | $S(t)$         | $\\Lambda(t)$          | $\\lambda(t)$                                                 |
-|----------------|:--------------:|:----------------------:|:-------------------------------------------------------------:|
-| $S(t)=$        | $\\cdot$       | $\\exp(-\\Lambda(t))$  | $\\exp\\left(-\\displaystyle\\int_0^t \\lambda(v) dv\\right)$ |
-| $\\Lambda(t)=$ | $-log(S(t))$   | $\\cdot$               | $\\displaystyle\\int_0^t \\lambda(v) dv$                      |
-| $\\lambda(t)=$ | $-\\frac{S'(t)}{S(t)}$ | $\\Lambda'(t)$ | $\\cdot$                                                      |
-"
-cat(tabl) 
+- $F(t)$: Distribution function
+- $f(t)$: Density function
+- $S(t)$: Survival function
+- $\lambda(t)$: Hazard function
+- $\Lambda(t)$: Cumulative hazard function.
+
+# Examples
+
+Next are two primary examples of parametric survival distributions:
+
+- the \alert{exponential} distribution;
+- the \alert{Weibull} distribution.
+\vfill
+
+These models (still) include \alert{no} covariates, thus:
+
+- Each subject in the sample is assumed to have the same distribution of $T$.
+\vfill
+
+No formulas.\newline
+Instead: Let's plot.
+
+# Exponential survival distribution
+
+```{r, echo = FALSE, out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("include/figures/EXP_survival_dist.png")
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
