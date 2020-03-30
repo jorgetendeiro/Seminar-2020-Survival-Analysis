@@ -80,6 +80,11 @@ For which the *time until the event* is of interest.
 # Advantages of SA over typical regression models
 
 - SA allows modeling units that did not fail up to data collection (*censored on the right* data).
+```{r, echo = FALSE, out.width = '50%', fig.align = 'center'}
+knitr::include_graphics("include/figures/censored.png")
+```
+\vfill
+
 - Regression could be considered to model the expected survival time. *But*:
     - Survival time is often not normally distributed.
     - $P(\text{survival}>t)$ is often more interesting than $\mathbb{E}(\text{survival time})$.
