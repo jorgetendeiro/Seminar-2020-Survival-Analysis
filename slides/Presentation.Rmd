@@ -91,7 +91,56 @@ knitr::include_graphics("include/figures/censored.png")
 
 # Censoring
 
-We focus on 
+- For some subjects, the event did not occur up to the end of data collection.
+- These data are \alert{right-censored}.
+\vfill
+
+Define random variables for the $i$th subject:
+
+- $T_i=$ time to event
+- $C_i=$ censoring time
+- $e_i=$ event indicator = 
+$\left\{
+\begin{array}{rl}
+1 & \text{if event is observed ($T_i\leq C_i$)} \\
+0 & \text{if event is not observed ($T_i> C_i$)}
+\end{array}
+\right.$ 
+- $Y_i=\min(T_i, C_i)=$ what occurred first (failure or censoring)
+\vfill
+
+Variables $\{Y_i, e_i\}$ include all the necessary information.
+
+# Typical data set
+
+\begin{table}[t]
+\begin{minipage}[t]{0.55\linewidth}\vspace{0pt}
+\includegraphics[width=\linewidth]{include/figures/censored.png}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.30\linewidth}\vspace{0pt}
+\begin{tabular}{cccc}
+\hline
+$T_i$ & $C_i$ & $Y_i$ & $e_i$ \\
+\hline
+5   & 10 & 5  & 1 \\
+4   & 12 & 4  & 1 \\
+13+ & 13 & 13 & 0 \\
+5   & 10 & 5  & 1 \\
+15+ & 15 & 15 & 0 \\
+\hline
+\end{tabular}
+\end{minipage}
+\end{table}
+\vfill
+
+Observe the flexibility of SA data:
+
+- Subjects may join the study at different moments.
+- Censoring times may differ among subjects.
+\vfill
+
+$\{Y_i, e_i\}$ does include all the necessary information.
 
 # Three main functions
 
