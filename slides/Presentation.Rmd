@@ -346,18 +346,21 @@ Day & No. subjects & Deaths & Censored & $S(t) = S(t-1) \times$           \\
 \vfill
 
 Hence:
-
 $$ 
 S(t) = 
 \left\{
 \begin{array}{rl}
-1,       & 0 \leq t < 1 \\
-6/7=.86, & 1 \leq t < 3 \\
-4/7=.57, & 3 \leq t < 9 \\
-2/7=.29, & 9 \leq t < 10
+1,       & 0 \leq t < 1  \\
+6/7=.86, & 1 \leq t < 3  \\
+4/7=.57, & 3 \leq t < 9  \\
+2/7=.29, & 9 \leq t < 10 \\
+\text{undefined}^*, & t \geq 10
 \end{array}.
 \right.
 $$
+
+\footnotesize
+$^*$Not everyone failed by $t=10$, so we cannot tell what happened after that.
 
 # Kaplan-Meier estimator -- Example
 
@@ -366,11 +369,67 @@ $$
 knitr::include_graphics("include/figures/KaplanMeier.png")
 ```
 
+# Altschuler-Nelson estimator
+
+- Non parametric, also simple.
+- Similar to Kaplan-Meier, but based on $\Lambda(t)$.
+\vfill
+
+Recall that $\Lambda(t)=$ accumulated risk up until time $t$.
+
+Hence it makes sense to estimate $\Lambda(t)$ by
+
+$$ \widehat{\Lambda}(t) = \sum_{i:t_i\leq t} \frac{\text{\# failures at }t_i}{\text{\# subjects at risk at } t_i}. $$
+\vfill
+
+Then, 
+
+$$ \widehat{S}(t) = \exp(-\widehat{\Lambda}(t)). $$
+
+Interesting property: $\sum_i\widehat{\Lambda}(Y_i)=$ total number of events.
+
+# Altschuler-Nelson estimator -- Example
+
+Data: Seven subjects; failure times $T = 1, 3, 3, 3+, 6+, 9, 10+$.
+\vfill
+
+\begin{center}
+\footnotesize
+\begin{tabular}{ccccc}
+\hline
+Day & No. subjects & Deaths & Censored & $\Lambda(t)$   \\
+    & at risk      &        &          &                \\
+\hline
+1   & \color{blue}{7}            & \color{red}{1}      & 0        & ${\color{red}{1}}/{\color{blue}{7}}$                 \\
+3   & $7-(1+0)=\color{blue}{6}$            & \color{red}{2}      & 1        & $1/7+ {\color{red}{2}}/{\color{blue}{6}} = 10/21$               \\
+6   & $6-(2+1)=\color{blue}{3}$            & \color{red}{0}      & 1        & $10/21+ {\color{red}{0}}/{\color{blue}{3}} = 10/21$               \\
+9   & $3-(0+1)=\color{blue}{2}$            & \color{red}{1}      & 0        & $10/21+ {\color{red}{1}}/{\color{blue}{2}} = 41/42$               \\
+10  & $2-(1+0)=\color{blue}{1}$            & \color{red}{0}      & 1        & $41/42+ {\color{red}{0}}/{\color{blue}{1}} = 41/42$               \\
+\hline
+& & $\sum_i={\color{red}{4}}$ & & $\sum_i={\color{red}{4}}$ 
+\end{tabular}
+\end{center}
+\vfill
+
+Hence:
+$$ 
+S(t) = \exp(-\Lambda(t)) = 
+\left\{
+\begin{array}{rl}
+\exp(0)=1,       & 0 \leq t < 1  \\
+\exp(-1/7)=.87, & 1 \leq t < 3  \\
+\exp(-10/21)=.62, & 3 \leq t < 9  \\
+\exp(-41/42)=.38, & 9 \leq t < 10 \\
+\text{undefined}, & t \geq 10
+\end{array}.
+\right.
+$$
+
+# Altschuler-Nelson estimator -- Example
 
 
-
-
-
-
+```{r, echo = FALSE, out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("include/figures/AltschulerNelson.png")
+```
 
 
