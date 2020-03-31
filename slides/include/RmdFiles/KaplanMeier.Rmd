@@ -1,0 +1,23 @@
+```{r echo = FALSE, results = 'hide', eval = FALSE}
+
+png(filename = "../figures/KaplanMeier.png", 
+    width = 20, height = 10, units = "cm", pointsize = 10, res = 600)
+par(mar = c(3, 5.5, 1, 0), bg = NA, las = 1, yaxs = "i")
+
+T   <- c(1, 3, 3, 3, 6, 9, 10)
+ind <- c(1, 1, 1, 0, 0, 1, 0)
+S   <- Surv(T, ind)
+
+survplot(npsurv(S ~ 1), ylim = c(0, 1), xlab = "", col = "#48603D", lwd = 4, 
+         what     = "survival", 
+         type     = "kaplan-meier", 
+         conf     = "bands", 
+         n.risk   = TRUE, 
+         col.fill = "#48603D66", 
+         y.n.risk = .025)
+mtext("Time", 1, 2)
+text(2, .89, ".86")
+text(6, .60, ".57")
+text(9.5, .32, ".29")
+dev.off()
+```
