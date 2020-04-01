@@ -34,6 +34,7 @@ library(pander)
 library(kableExtra)
 library(pscl)
 library(rms)
+library(magrittr)
 panderOptions('round', 3)
 panderOptions('keep.trailing.zeros', TRUE)
 ```
@@ -142,6 +143,9 @@ Observe the flexibility of SA data:
 \vfill
 
 $\{Y_i, e_i\}$ does include all the necessary information.
+\vfill
+
+But, *assumption*: Censoring is \alert{non-informative}, i.e., it is independent of the risk of the event.
 
 # Three main functions
 
@@ -296,10 +300,11 @@ There are several options available to estimate the survival function (and frien
 
 Here we will briefly go through only a few:
 
-- Not parametric:
+- Not parametric and homogeneous (i.e., without predictors):
     - Kaplan-Meier estimator
     - Altschuler-Nelson estimator
 - Parametric:
+    - Homogeneous (i.e., no predictors): Exponential, Weibull, normal, logistic, log-normal, log-logistic,\ldots
     - Proportional hazards models
 - Semi-parametric:
     - Cox proportional hazards regression model
@@ -427,9 +432,42 @@ $$
 
 # Altschuler-Nelson estimator -- Example
 
-
 ```{r, echo = FALSE, out.width = '100%', fig.align = 'center'}
 knitr::include_graphics("include/figures/AltschulerNelson.png")
+```
+
+# Homogeneous parametric models
+
+*\alert{Q:}* How about *continuous*, parametric, counterparts to KM and AN?
+\newline
+\phantom{Q:} Still incorporating no predictors?
+
+*\alert{A:}* There are really *a lot* of possibilities.
+\vfill
+
+Most common examples:
+
+- Exponential
+- Weibull
+- Normal
+- Logistic
+- Log-normal
+- Log-logistic
+- \ldots
+\vfill
+
+*My advice:*\newline
+Just fit several of these and compare.
+\newline
+There is no 'best' model, it depends on the data.
+
+# Homogeneous parametric models
+
+Data: $T = 1, 3, 3, 3+, 6+, 9, 10+$.
+\vfill
+
+```{r, echo = FALSE, out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("include/figures/HomogeneousModelsParametric.png")
 ```
 
 
