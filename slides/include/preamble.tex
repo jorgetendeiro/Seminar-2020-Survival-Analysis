@@ -6,6 +6,7 @@
 \usepackage{amssymb,amsmath,amsfonts}
 \usepackage{tikz}
 \usepackage{subfig}
+\usepackage{colortbl}
 
 \setbeamerfont{title}{family=\it}
 \setbeamerfont{frametitle}{family=\it}
@@ -23,3 +24,5 @@
 \definecolor{bgcolor}{HTML}{F5F8F5}
 \setbeamercolor{background canvas}{bg=bgcolor}
 \setbeamercolor{alerted text}{fg=bullets}
+\definecolor{tablecols}{HTML}{AFBBAB}
+\newcolumntype{g}{>{\columncolor{tablecols}}c}

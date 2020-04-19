@@ -1,0 +1,32 @@
+```{r echo = FALSE, results = 'hide', eval = FALSE}
+x.times.beta <- 1.2
+gamma        <- .7
+l <- function(t) gamma * (t^(gamma-1)) * exp(x.times.beta)
+L <- function(t) (t^gamma) * exp(x.times.beta)
+S <- function(t) exp(-t^gamma)^exp(x.times.beta)
+
+png(filename = "../figures/WEIBULL_PH_model.png", 
+    width = 15, height = 5, units = "cm", pointsize = 10, res = 600)
+layout(matrix(1:3, 1, 3), widths  = c(1, 1, 1))
+par(mar = c(3, 3.5, .5, 1), bg = NA)
+
+# l(t|X):
+plot(l(x), 0, 2, ylim = c(0, 4), las = 1, bty = "n", type = "l", 
+      xlab = "", ylab = "", xaxs = "i", yaxs = "i", 
+      lwd = 2, col = "#48603D")
+mtext("Time", side = 1, line = 2, cex = .8)
+mtext(expression(paste(lambda, "(t)")), side = 2, line = 2, cex = .8)
+# L(t|X):
+curve(L(x), 0, 2, ylim = c(0, 7), las = 1, bty = "n", 
+      xlab = "", ylab = "", xaxs = "i", yaxs = "i", 
+      lwd = 2, col = "#48603D")
+mtext("Time", side = 1, line = 2, cex = .8)
+mtext(expression(paste(Lambda, "(t)")), side = 2, line = 2, cex = .8)
+# S(t|X):
+curve(S(x), 0, 2, ylim = c(0, 1), las = 1, bty = "n", 
+      xlab = "", ylab = "", xaxs = "i", yaxs = "i", 
+      lwd = 2, col = "#48603D")
+mtext("Time", side = 1, line = 2, cex = .8)
+mtext("S(t)", side = 2, line = 2.5, cex = .8)
+dev.off()
+```

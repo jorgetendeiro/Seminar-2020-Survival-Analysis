@@ -121,7 +121,7 @@ Variables $\{Y_i, e_i\}$ include all the necessary information.
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.30\linewidth}\vspace{0pt}
-\begin{tabular}{cccc}
+\begin{tabular}{ccgg}
 \hline
 $T_i$ & $C_i$ & $Y_i$ & $e_i$ \\
 \hline
@@ -496,5 +496,136 @@ Data: $T = 1, 3, 3, 3+, 6+, 9, 10+$.
 ```{r, echo = FALSE, out.width = '100%', fig.align = 'center'}
 knitr::include_graphics("include/figures/AssessModelFit_Exp.png")
 ```
+
+# Parametric proportional hazards model
+First model until now that allows incorporating predictor variables $X=\{X_1,X_2,\ldots,X_k\}$.
+
+- $X_i$ can be continuous, dichotomous, polytomous, etc.
+\vfill
+
+The \alert{proportional hazards (PH) model} generalizes the hazard function $\lambda(t)$:
+$$
+\fbox{$\lambda(t|X) = \lambda(t)\overset{\text{relative hazard function}}{\overbrace{\exp(\underset{X\beta}{\underbrace{\beta_0+\beta_1X_1+\beta_2X_2+\cdots+\beta_xX_k}})}} = \lambda(t)\exp(X\beta)$}
+$$
+
+- $\lambda(t|X)=$ hazard function for $T$ given the predictors $X$.
+- $\lambda(t)=$ \alert{'underlying' hazard function} (for a subject with $X\beta=0$).
+- $\exp(X\beta)$ describes the *relative* effects of the predictors.
+\vfill
+
+*Note: * The intercept $\beta_0$ may be omitted (kind of `absorbed' into $\lambda(t)$).
+
+# Parametric proportional hazards model
+$$
+\fbox{$\lambda(t|X) = \lambda(t)\exp(X\beta)$}
+$$
+\vfill
+
+Here are the 'friends':
+\begin{align*}
+\Lambda(t|X) &= \Lambda(t)\exp(X\beta) \\
+S(t|X)       &= S(t)^{\exp(X\beta)}
+\end{align*}
+
+- $\Lambda(t)=$ \alert{'underlying' cumulative hazard function} (for a subject with $X\beta=0$).
+- $S(t)=$ \alert{'underlying' survival function} (for a subject with $X\beta=0$).
+
+# Parametric proportional hazards model
+It is easiest to consider the log-model versions:
+\begin{alignat*}{2}
+\log\lambda(t|X) &= \log\lambda(t) & &+ X\beta \\
+\log\Lambda(t|X) &= \log\Lambda(t) & &+ X\beta \\
+\log S(t|X)      &= \underset{\text{time}}{\underbrace{\log S(t)}} & &\times \underset{\text{predictors}}{\underbrace{\exp(X\beta)}}
+\end{alignat*}
+
+- Observe that we separated the \alert{time} and the \alert{predictors} components.
+\vfill
+
+Important consequence due to the separability of $t$ and $X$:
+
+- The effect of $X$ is assumed to be the same at all values of $t$.
+- I.e.: We assume no $t\times X$ interaction effect.
+
+# Parametric proportional hazards model
+How to interpret regression coefficient $\beta_j$ ($j=1,\ldots,k$)?
+\vfill
+
+\begin{alignat*}{2}
+\log\lambda(t|X) &= \log\lambda(t) & &+ (\beta_0+\beta_1X_1+\beta_2X_2+\cdots+\beta_xX_k) \\
+\log\Lambda(t|X) &= \underset{\text{time}}{\underbrace{\log\Lambda(t)}} & &+ \underset{\text{predictors}}{\underbrace{(\beta_0+\beta_1X_1+\beta_2X_2+\cdots+\beta_xX_k)}}
+\end{alignat*}
+\vfill
+
+- \alert{Additive} interpretation: 
+    - $\log\lambda(t|X)$ increases by $\beta_j$ units when $X_j$ increases by 1 unit \alert{at any time point} $t$, holding all the other predictors constant:
+    $$\log\lambda(t|\ldots,X_j+1,\ldots) = \log\lambda(t|\ldots,X_j,\ldots) \alert{+ \beta_j}.$$
+    - Same for $\log\lambda(t|X)$.
+
+# Parametric proportional hazards model
+How to interpret regression coefficient $\beta_j$ ($j=1,\ldots,k$)?
+\vfill
+
+\begin{alignat*}{2}
+\lambda(t|X) &= \lambda(t) & &\times \exp(\beta_0+\beta_1X_1+\beta_2X_2+\cdots+\beta_xX_k) \\
+\Lambda(t|X) &= \Lambda(t) & &\times \exp(\beta_0+\beta_1X_1+\beta_2X_2+\cdots+\beta_xX_k) \\
+\log S(t|X)  &= \underset{\text{time}}{\underbrace{\log S(t)}}      & &\times\underset{\text{predictors}}{\underbrace{\exp(\beta_0+\beta_1X_1+\beta_2X_2+\cdots+\beta_xX_k)}}
+\end{alignat*}
+\vfill
+
+- \alert{Multiplicative} interpretation: 
+    - $\lambda(t|X)$ is multiplied by $\exp(\beta_j)$ units when $X_j$ increases by 1 unit \alert{at any time point} $t$, holding all the other predictors constant:
+    $$\frac{\lambda(t|\ldots,X_j+1,\ldots)}{\lambda(t|\ldots,X_j,\ldots)} = \exp(\beta_j).$$
+    - Same for $\lambda(t|X)$.
+    - Same for $\log S(t|X)$.
+
+# Example: Exponential PH survival model
+$X\beta = \beta_0+\beta_1X_1+\beta_2X_2+\cdots+\beta_xX_k$.
+
+\begin{align*}
+\lambda(t|X) &= \exp(X\beta) \\
+\Lambda(t|X) &= t\exp(X\beta) \\
+S(t|X)       &= \exp(-t)^{\exp(X\beta)}
+\end{align*}
+\vfill
+
+```{r, echo = FALSE, out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("include/figures/EXP_PH_model.png")
+```
+
+# Example: Weibull PH survival model
+$X\beta = \beta_0+\beta_1X_1+\beta_2X_2+\cdots+\beta_xX_k$.
+
+\begin{align*}
+\lambda(t|X) &= \gamma t^{\gamma-1}\exp(X\beta) \\
+\Lambda(t|X) &= t^\gamma\exp(X\beta) \\
+S(t|X)       &= \exp(-t^\gamma)^{\exp(X\beta)}
+\end{align*}
+\vfill
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
