@@ -35,6 +35,7 @@ library(kableExtra)
 library(pscl)
 library(rms)
 library(magrittr)
+library(xtable)
 panderOptions('round', 3)
 panderOptions('keep.trailing.zeros', TRUE)
 ```
@@ -92,9 +93,13 @@ knitr::include_graphics("include/figures/censored.png")
     - $P(\text{survival}>t)$ is often more interesting than $\mathbb{E}(\text{survival time})$.
 
 # Censoring
+Some subjects:
 
-- For some subjects, the event did not occur up to the end of data collection.
-- These data are \alert{right-censored}.
+- Did not experiment the event up to the end of data collection;
+- Withdrew from study;
+- Were lost to follow-up.
+
+These data are \alert{right-censored}.
 \vfill
 
 Define random variables for the $i$th subject:
@@ -669,11 +674,69 @@ Advantages:
 - Surprisingly, the Cox PH model is \alert{as efficient as} parametric PH models even when parametric assumptions hold.
 
 # Final worked out example
+I will use the *lung* dataset from the *survival* package in R.
 
+- The data concern survival in patients with advanced lung cancer.
+- These data have been analyzed *ad nauseam*, e.g.:
+    - [Tutorial 1](http://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html)
+    - [Tutorial 2](http://www.sthda.com/english/wiki/cox-proportional-hazards-model)
+    - [Tutorial 3](http://rstudio-pubs-static.s3.amazonaws.com/5896_8f0fed2ccbbd42489276e554a05af87e.html)
+    - Using Bayesian statistics and [Stan!](https://ermeel86.github.io/case_studies/surv_stan_example.html)
 
+I will just run some basics.
+\vfill
 
+Want something else to play afterwards?
 
+- Check other datasets in the *survival* R package, it has plenty (e.g., *ovarian*, *veteran*).
+- Bayesian analysis on [mastectomy data](https://docs.pymc.io/notebooks/survival_analysis.html) (*HSAUR* R package)
+- [Recidivism](https://socialsciences.mcmaster.ca/jfox/Books/Companion/appendices/Appendix-Cox-Regression.pdf) data (*carData* R package)
 
+# Lung data
+\footnotesize
+```{r, echo = FALSE, results = 'asis'}
+data(lung)
+table1 <- rbind(head(lung[c("time", "status")]), 
+                c("\\vdots", "\\vdots")) %>% 
+  kable(format = "latex", booktabs = TRUE, linesep = "", escape = FALSE, align = 'cc', 
+        col.names = c("$Y_i=$time", "$e_i$=status"), 
+        caption = "\\emph{Time and censoring}") %>% 
+  row_spec(0, color = "bullets", italic = TRUE, bold = TRUE)
+table2 <- rbind(head(lung[c("age", "sex", "ph.ecog", "ph.karno", "wt.loss")]), 
+                c("\\vdots", "\\vdots", "\\vdots", "\\vdots", "\\vdots"))  %>% 
+  kable(format = "latex", booktabs = TRUE, linesep = "", escape = FALSE, align = 'ccccc', 
+        caption = "\\emph{Predictors}") %>% 
+  row_spec(0, color = "bullets", italic = TRUE, bold = TRUE)
+
+cat(c("\\begin{table}[!h]
+    \\begin{minipage}[b]{.40\\linewidth}",
+    table1,
+    "\\end{minipage}%
+    \\begin{minipage}[b]{.59\\linewidth}",
+    table2,
+    "\\end{minipage} 
+\\end{table}"
+))  
+```
+\vfill
+
+\begin{minipage}[t]{.40\linewidth}
+\begin{itemize}
+\item \emph{time}: Survival time in days
+\item \emph{status}: Censoring (1=censored, 2=dead)
+\end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{.59\linewidth}
+\begin{itemize}
+\item \emph{age}: Age in years
+\item \emph{sex}: Male=1, Female=2
+\item \emph{ph.ecog}: ECOG performance score\\ (0=good, \ldots, 5=dead)
+\item \emph{ph.karno}: 0-100 performance score (physician)
+\item \emph{wt.loss}: Weight loss in last 6 months
+\end{itemize}
+\end{minipage}
+\normalsize
 
 
 
