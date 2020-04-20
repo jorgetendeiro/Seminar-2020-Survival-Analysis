@@ -580,7 +580,6 @@ How to interpret regression coefficient $\beta_j$ ($j=1,\ldots,k$)?
 
 # Example: Exponential PH survival model
 $X\beta = \beta_0+\beta_1X_1+\beta_2X_2+\cdots+\beta_xX_k$.
-
 \begin{align*}
 \lambda(t|X) &= \exp(X\beta) \\
 \Lambda(t|X) &= t\exp(X\beta) \\
@@ -594,7 +593,6 @@ knitr::include_graphics("include/figures/EXP_PH_model.png")
 
 # Example: Weibull PH survival model
 $X\beta = \beta_0+\beta_1X_1+\beta_2X_2+\cdots+\beta_xX_k$.
-
 \begin{align*}
 \lambda(t|X) &= \gamma t^{\gamma-1}\exp(X\beta) \\
 \Lambda(t|X) &= t^\gamma\exp(X\beta) \\
@@ -602,25 +600,75 @@ S(t|X)       &= \exp(-t^\gamma)^{\exp(X\beta)}
 \end{align*}
 \vfill
 
+```{r, echo = FALSE, out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("include/figures/WEIBULL_PH_model.png")
+```
 
+# Accelerated failure time models
 
+The predictors in the PH models shown so far have an effect through \alert{multiplication on the hazard function}:
+$$
+\lambda(t|X) = \lambda(t)\exp(X\beta).
+$$
+We can instead make the predictors have a \alert{multiplicative effect on the failure time}. Or, equiv., have an additive effect on the log failure time.
 
+- These are \alert{accelerated failure time} models.
+- The failure time accelerates as $X$ increases.
+\vfill
 
+General form:
+$$
+\fbox{
+$S(t|X) = \psi\left(
+\frac{\log(t)-X\beta}{\sigma}
+\right)$
+}
+$$
 
+- $\psi$: e.g., normal, logistic, extreme value distribution.
+- $\sigma$: scale parameter.
+\vfill
 
+I won't pursue this type of models today, so just FYI.
 
+# Cox proportional hazards model
+Seemingly the most popular survival model used.
 
+The Cox PH model:
+$$
+\fbox{$\lambda(t|X) = \lambda(t)\exp(X\beta)$}
+$$
+\vfill
 
+- Looks the same as the general PH model!
+- But, it is \alert{semi}parametric:
+    - It makes a parametric assumption in $X\beta = \beta_1X_1+\cdots+\beta_xX_k$.\newline
+    (NB: \alert{No intercept} is typical for the Cox PH model.)
+    - But, it assumes \alert{no parametric model} for the hazard function $\lambda(t)$.\newline
+    Actually, it won't even be estimated!
+\vfill
 
+Rationale:
 
+- The true hazard function $\lambda(t)$ may be too complex.
+- The effect of the predictors is more relevant than the shape of $\lambda(t)$.
+\vfill
 
+The Cox PH model allows bypassing $\lambda(t)$.
 
+# Cox proportional hazards model
+But how does this *magic* work?
 
+- Use the \alert{rank ordering} of $T$.
+\vfill
 
+Advantages:
 
+- Better protection against outliers.
+- The Cox PH model is more efficient than parametric PH models when parametric assumptions are strongly violated.
+- Surprisingly, the Cox PH model is \alert{as efficient as} parametric PH models even when parametric assumptions hold.
 
-
-
+# Final worked out example
 
 
 
