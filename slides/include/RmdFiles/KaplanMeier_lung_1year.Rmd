@@ -1,0 +1,25 @@
+```{r echo = FALSE, results = 'hide', eval = FALSE}
+data <- lung
+
+png(filename = "../figures/KaplanMeier_lung_1year.png", 
+    width = 20, height = 10, units = "cm", pointsize = 10, res = 600, 
+    bg = "transparent")
+par(mar = c(3, 5.5, 1, 0), bg = NA, las = 1, yaxs = "i")
+
+survplot(npsurv(Surv(time, status) ~ 1, data = lung), 
+         ylim = c(0, 1), xlim = c(0, 1100), xlab = "", time.inc = 250, 
+         col = "#48603D", lwd = 4, 
+         what     = "survival", 
+         type     = "kaplan-meier", 
+         conf     = "bands", 
+         n.risk   = FALSE, 
+         col.fill = "#48603D66", 
+         xaxs     = "i", 
+         yaxs     = "i")
+arrows(c(365, 365), c(0, .41), c(365, 0), c(.41, .41), lwd = 4)
+mtext("Time (days)", 1, 2)
+text(-18, .45, ".41", col = "#48603D", cex = 1.5)
+text(400, .04, "365", col = "#48603D", cex = 1.5)
+text(500, .6, "95% CI: (.35, .49)")
+dev.off()
+```

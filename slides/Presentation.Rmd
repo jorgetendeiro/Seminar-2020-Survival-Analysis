@@ -36,6 +36,7 @@ library(pscl)
 library(rms)
 library(magrittr)
 library(xtable)
+library(survminer)
 panderOptions('round', 3)
 panderOptions('keep.trailing.zeros', TRUE)
 ```
@@ -737,6 +738,87 @@ cat(c("\\begin{table}[!h]
 \end{itemize}
 \end{minipage}
 \normalsize
+
+# Lung data
+- $\{Y_i, e_i\}$ completey define the DV $T$ (time until event).
+- $T$ can be computed through the `Surv()` function.
+\vfill
+
+\footnotesize
+```{r, echo = FALSE, results = 'asis'}
+cat(c("\\begin{table}[!h]
+    \\begin{minipage}[b]{\\linewidth}",
+    table1,
+    "\\end{minipage} 
+\\end{table}"
+))  
+```
+\normalsize
+\vfill
+
+```{r }
+Surv(lung$time, lung$status) %>% head
+```
+
+# In R
+There are loads of packages and options to go about:
+
+- *rms*
+- *survival*
+- *survminer*
+\vfill
+
+I'll use functions from various packages depending on functionality and eye-candyness.
+\vfill
+
+# Lung data: Kaplan-Meier
+```{r, echo = FALSE, out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("include/figures/KaplanMeier_lung.png")
+```
+
+# Lung data: Kaplan-Meier
+*What is $P(t>365\text{ days})$?*
+\vfill
+
+```{r, echo = FALSE, out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("include/figures/KaplanMeier_lung_1year.png")
+```
+
+# Lung data: Kaplan-Meier
+*What is the average (median) survival time?*
+\vfill
+
+```{r, echo = FALSE, out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("include/figures/KaplanMeier_lung_median.png")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
