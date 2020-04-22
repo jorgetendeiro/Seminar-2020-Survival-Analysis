@@ -37,6 +37,7 @@ library(rms)
 library(magrittr)
 library(xtable)
 library(survminer)
+library(broom)
 panderOptions('round', 3)
 panderOptions('keep.trailing.zeros', TRUE)
 ```
@@ -792,10 +793,40 @@ knitr::include_graphics("include/figures/KaplanMeier_lung_1year.png")
 knitr::include_graphics("include/figures/KaplanMeier_lung_median.png")
 ```
 
+# Lung data: Homogeneous parametric models
+*With no predictors.*
+\vfill
 
+```{r, echo = FALSE, out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("include/figures/HomogeneousModelsParametric_lung.png")
+```
 
+# Lung data: Cox regression
+*First we regress $T$ on sex.*
+\vfill
 
+```{r, echo = FALSE}
+coxph(Surv(time, status) ~ sex, data = lung) %>% 
+  tidy(exp = FALSE) %>% 
+  kable(digits=3)
+```
+\vfill
 
+Hence
+$$
+\lambda(t|\text{sex})=\lambda(t)\exp(-.53\text{sex})
+$$
+and
+$$
+\text{hazard ratio} = 
+\frac{\lambda(t|\text{sex}=2)}{\lambda(t|\text{sex}=1)} = 
+\frac{\lambda(t|\text{Female})}{\lambda(t|\text{Male})} = 
+\exp(-.53) \simeq .59.
+$$
+\vfill
+
+*(Multiplicative) Interpretation:*\newline
+About .60 times as many females are dying as males, at any time $t$.
 
 
 

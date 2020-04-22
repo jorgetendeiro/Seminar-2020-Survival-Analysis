@@ -1,0 +1,43 @@
+```{r echo = FALSE, results = 'hide', eval = FALSE}
+
+png(filename = "../figures/HomogeneousModelsParametric_lung.png", 
+    width = 20, height = 10, units = "cm", pointsize = 10, res = 600)
+par(mar = c(3, 5.5, 1, 12), bg = NA, las = 1, yaxs = "i")
+
+survplot(npsurv(Surv(time, status) ~ 1, data = lung), 
+         ylim = c(0, 1), xlim = c(0, 1100), xlab = "", time.inc = 250, 
+         col = "gray", lwd = 1, lty = 1,  
+         what     = "survival", 
+         type     = "kaplan-meier", 
+         conf     = "none", 
+         n.risk   = FALSE, 
+         y.n.risk = .025)
+survplot(npsurv(Surv(time, status) ~ 1, data = lung, type = "fleming-harrington" , conf.int = FALSE), 
+         add = TRUE, col = "gray", lwd = 1, lty = 2)
+# 
+survplot(psm(Surv(time, status) ~ 1, data = lung, dist = "exponential"), add = TRUE, 
+         col = "#48603D", lty = 1, lwd = 2)
+survplot(psm(Surv(time, status) ~ 1, data = lung, dist = "weibull"), add = TRUE, 
+         col = "#48603D", lty = 2, lwd = 2)
+survplot(psm(Surv(time, status) ~ 1, data = lung, dist = "gaussian"), add = TRUE, 
+         col = "#48603D", lty = 3, lwd = 2)
+survplot(psm(Surv(time, status) ~ 1, data = lung, dist = "logistic"), add = TRUE, 
+         col = "#48603D", lty = 4, lwd = 2)
+survplot(psm(Surv(time, status) ~ 1, data = lung, dist = "lognormal"), add = TRUE, 
+         col = "#48603D", lty = 5, lwd = 2)
+survplot(psm(Surv(time, status) ~ 1, data = lung, dist = "loglogistic"), add = TRUE, 
+         col = "#48603D", lty = 6, lwd = 2)
+mtext("Time (days)", 1, 2)
+legend("topright", 
+       lty = c(1:2, 1:6), 
+       lwd = c(rep(1, 2), rep(2, 6)), 
+       legend = c("Kaplan-Meier", "Altschuler-Nelson", 
+                  "Exponential", "Weibull", 
+                  "Normal", "Logistic", 
+                  "Lognormal", "Loglogistic"), 
+       seg.len = 5, box.col = "#48603D", 
+       col = c(rep("gray", 2), rep("#48603D", 6)), 
+       xpd = TRUE, 
+       inset = c(-.4, 0))
+dev.off()
+```

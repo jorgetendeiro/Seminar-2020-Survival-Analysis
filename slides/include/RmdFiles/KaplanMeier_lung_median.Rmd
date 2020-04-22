@@ -13,9 +13,7 @@ survplot(npsurv(Surv(time, status) ~ 1, data = lung),
          type     = "kaplan-meier", 
          conf     = "bands", 
          n.risk   = FALSE, 
-         col.fill = "#48603D66", 
-         xaxs     = "i", 
-         yaxs     = "i")
+         col.fill = "#48603D66")
 arrows(c(0, 310), c(.5, .5), c(310, 310), c(.5, 0), lwd = 4)
 mtext("Time (days)", 1, 2)
 text(-18, .54, ".5", col = "#48603D", cex = 1.5)
