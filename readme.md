@@ -1,23 +1,14 @@
 Seminar - An introduction to survival analysis
 ================
 Jorge N. Tendeiro
-April xx, 2020
+May 07, 2020
 
-This workshop takes place online in room *xxx* from 9:30 to 14:15 on
-April, xx, 2020.
+This one-hour talk takes place online at 11:00 on May 07, 2020.
 
-I aim at offering a gentle introduction to survival analysis. I will
-mostly do intro stuff from the book. showcase and what not.
+I aim at offering a gentle introduction to survival analysis. I mostly
+present introductory material, which is strongly inspired by Frank
+Harrell’s book “Regression Modeling Strategies”.
 
 All code is freely available from
 [Github](https://github.com/jorgetendeiro/Seminar-2020-Survival-Analysis).
 The slides are available [here](slides/Presentation.pdf).
-
-All analyses are fully reproducible. I will use
-[R](https://www.r-project.org) (with [RStudio](https://rstudio.com) as
-the graphical user interface). The following R packages will be used and
-should be installed in case you want to mimic the analyses shown on the
-slides:
-
-  - `rstan` : R interface for [Stan](https://mc-stan.org).
-  - `bayesplot`: To render plots, fully integrated with Stan.

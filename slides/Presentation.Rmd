@@ -50,7 +50,7 @@ Gentle introduction to survival analysis.
 \vfill
 
 *Main source:*\newline
-Harrell, F. E., Jr. (2015). *Regression Modeling strategies*, 2nd edition. Springer
+Harrell, F. E., Jr. (2015). *Regression Modeling Strategies*, 2nd edition. Springer
 
 *Chapters:*\newline
 17, 18, and 20.
