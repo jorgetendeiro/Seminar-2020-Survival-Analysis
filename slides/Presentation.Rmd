@@ -13,6 +13,7 @@ author: |
   | \faGlobe\ ```www.jorgetendeiro.com```
   | \faGithub\ ```jorgetendeiro/Seminar-2020-Survival-Analysis```
 fontsize: 10pt
+date: "07 May 2020"
 output:
  beamer_presentation:
  # keep_tex: true
@@ -92,8 +93,8 @@ knitr::include_graphics("include/figures/censored.png")
 \vfill
 
 - Regression could be considered to model the expected survival time. *But*:
-    - Survival time is often not normally distributed.
-    - $P(\text{survival}>t)$ is often more interesting than $\mathbb{E}(\text{survival time})$.
+- Survival time is often not normally distributed.
+- $P(\text{survival}>t)$ is often more interesting than $\mathbb{E}(\text{survival time})$.
 
 # Censoring
 Some subjects:
@@ -310,13 +311,13 @@ There are several options available to estimate the survival function (and frien
 Here we will briefly go through only a few:
 
 - Not parametric and homogeneous (i.e., without predictors):
-    - Kaplan-Meier estimator
-    - Altschuler-Nelson estimator
+- Kaplan-Meier estimator
+- Altschuler-Nelson estimator
 - Parametric:
-    - Homogeneous (i.e., no predictors): Exponential, Weibull, normal, logistic, log-normal, log-logistic,\ldots
-    - Proportional hazards models
+- Homogeneous (i.e., no predictors): Exponential, Weibull, normal, logistic, log-normal, log-logistic,\ldots
+- Proportional hazards models
 - Semi-parametric:
-    - Cox proportional hazards regression model
+- Cox proportional hazards regression model
 \vfill
 
 After a brief intro to each, I will use them all on an empirical dataset.
@@ -347,7 +348,7 @@ Data: Seven subjects; failure times $T = 1, 3, 3, 3+, 6+, 9, 10+$.
 \begin{tabular}{ccccc}
 \hline
 Day & No. subjects & Deaths & Censored & $S(t) = S(t-1) \times$           \\
-    & at risk      &        &          & $\times (1 - P(T\leq t|T>t-1))$  \\
+& at risk      &        &          & $\times (1 - P(T\leq t|T>t-1))$  \\
 \hline
 1   & \color{blue}{7}            & \color{red}{1}      & 0        & $1  \times (1-{\color{red}{1}}/{\color{blue}{7}}) = 6/7$                 \\
 3   & $7-(1+0)=\color{blue}{6}$            & \color{red}{2}      & 1        & $6/7\times (1-{\color{red}{2}}/{\color{blue}{6}}) = 4/7$               \\
@@ -410,7 +411,7 @@ Data: Seven subjects; failure times $T = 1, 3, 3, 3+, 6+, 9, 10+$.
 \begin{tabular}{ccccc}
 \hline
 Day & No. subjects & Deaths & Censored & $\Lambda(t)$   \\
-    & at risk      &        &          &                \\
+& at risk      &        &          &                \\
 \hline
 1   & \color{blue}{7}            & \color{red}{1}      & 0        & ${\color{red}{1}}/{\color{blue}{7}}$                 \\
 3   & $7-(1+0)=\color{blue}{6}$            & \color{red}{2}      & 1        & $1/7+ {\color{red}{2}}/{\color{blue}{6}} = 10/21$               \\
@@ -482,8 +483,8 @@ knitr::include_graphics("include/figures/HomogeneousModelsParametric.png")
 I like Harrell's take on this:
 
 - To assess model fit, use \alert{graphical methods}.
-    - No significance tests at this point, great!
-    - But there are some test options, see e.g. Chapter 20.
+- No significance tests at this point, great!
+- But there are some test options, see e.g. Chapter 20.
 \vfill
 
 We show an example: 
@@ -565,9 +566,9 @@ How to interpret regression coefficient $\beta_j$ ($j=1,\ldots,k$)?
 \vfill
 
 - \alert{Additive} interpretation: 
-    - $\log\lambda(t|X)$ increases by $\beta_j$ units when $X_j$ increases by 1 unit \alert{at any time point} $t$, holding all the other predictors constant:
-    $$\log\lambda(t|\ldots,X_j+1,\ldots) = \log\lambda(t|\ldots,X_j,\ldots) \alert{+ \beta_j}.$$
-    - Same for $\log\lambda(t|X)$.
+- $\log\lambda(t|X)$ increases by $\beta_j$ units when $X_j$ increases by 1 unit \alert{at any time point} $t$, holding all the other predictors constant:
+$$\log\lambda(t|\ldots,X_j+1,\ldots) = \log\lambda(t|\ldots,X_j,\ldots) \alert{+ \beta_j}.$$
+- Same for $\log\lambda(t|X)$.
 
 # Parametric proportional hazards model
 How to interpret regression coefficient $\beta_j$ ($j=1,\ldots,k$)?
@@ -581,10 +582,10 @@ How to interpret regression coefficient $\beta_j$ ($j=1,\ldots,k$)?
 \vfill
 
 - \alert{Multiplicative} interpretation: 
-    - $\lambda(t|X)$ is multiplied by $\exp(\beta_j)$ units when $X_j$ increases by 1 unit \alert{at any time point} $t$, holding all the other predictors constant:
-    $$\underset{\text{hazard ratio}}{\underbrace{\frac{\lambda(t|\ldots,X_j+1,\ldots)}{\lambda(t|\ldots,X_j,\ldots)}}} = \exp(\beta_j).$$
-    - Same for $\Lambda(t|X)$.
-    - Same for $\log S(t|X)$.
+- $\lambda(t|X)$ is multiplied by $\exp(\beta_j)$ units when $X_j$ increases by 1 unit \alert{at any time point} $t$, holding all the other predictors constant:
+$$\underset{\text{hazard ratio}}{\underbrace{\frac{\lambda(t|\ldots,X_j+1,\ldots)}{\lambda(t|\ldots,X_j,\ldots)}}} = \exp(\beta_j).$$
+- Same for $\Lambda(t|X)$.
+- Same for $\log S(t|X)$.
 
 # Hazard ratio
 $$\fbox{$\text{HR = }\frac{\lambda(t|\ldots,X_j+1,\ldots)}{\lambda(t|\ldots,X_j,\ldots)}$}$$
@@ -670,10 +671,10 @@ $$
 
 - Looks the same as the general PH model!
 - But, it is \alert{semi}parametric:
-    - It makes a parametric assumption in $X\beta = \beta_1X_1+\cdots+\beta_xX_k$.\newline
-    (NB: \alert{No intercept} is typical for the Cox PH model.)
-    - But, it assumes \alert{no parametric model} for the hazard function $\lambda(t)$.\newline
-    Actually, it won't even be estimated!
+- It makes a parametric assumption in $X\beta = \beta_1X_1+\cdots+\beta_xX_k$.\newline
+(NB: \alert{No intercept} is typical for the Cox PH model.)
+- But, it assumes \alert{no parametric model} for the hazard function $\lambda(t)$.\newline
+Actually, it won't even be estimated!
 \vfill
 
 Rationale:
@@ -701,10 +702,10 @@ I will use the *lung* dataset from the *survival* package in R.
 
 - The data concern survival in patients with advanced lung cancer.
 - These data have been analyzed *ad nauseam*, e.g.:
-    - [Tutorial 1](http://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html)
-    - [Tutorial 2](http://www.sthda.com/english/wiki/cox-proportional-hazards-model)
-    - [Tutorial 3](http://rstudio-pubs-static.s3.amazonaws.com/5896_8f0fed2ccbbd42489276e554a05af87e.html)
-    - Using Bayesian statistics and [Stan!](https://ermeel86.github.io/case_studies/surv_stan_example.html)
+- [Tutorial 1](http://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html)
+- [Tutorial 2](http://www.sthda.com/english/wiki/cox-proportional-hazards-model)
+- [Tutorial 3](http://rstudio-pubs-static.s3.amazonaws.com/5896_8f0fed2ccbbd42489276e554a05af87e.html)
+- Using Bayesian statistics and [Stan!](https://ermeel86.github.io/case_studies/surv_stan_example.html)
 
 I will just run some basics.
 \vfill
