@@ -1,0 +1,19 @@
+```{r echo = FALSE, results = 'hide', eval = FALSE}
+data <- lung
+
+png(filename = "../figures/KaplanMeier_lung_multreg.png", 
+    width = 20, height = 10, units = "cm", pointsize = 10, res = 600, 
+    bg = "transparent")
+par(mar = c(3, 5.5, 1, 0), bg = NA, las = 1, yaxs = "i")
+
+cox.res <- coxph(Surv(time, status) ~ sex + age + ph.ecog + ph.karno + wt.loss, data = lung)
+ggadjustedcurves(cox.res, data = lung, 
+                 xlim    = c(0, 1000), 
+                 palette = "#48603D", 
+                 xlab    = "Time (days)", 
+                 ylab    = "Survival Probability") + 
+  theme(legend.position  = "none", 
+        panel.background = element_rect(fill = "transparent"), 
+        plot.background  = element_rect(fill = "transparent", color = NA))
+dev.off()
+```

@@ -36,6 +36,7 @@ library(pscl)
 library(rms)
 library(magrittr)
 library(xtable)
+library(survival)
 library(survminer)
 library(broom)
 panderOptions('round', 3)
@@ -47,7 +48,7 @@ panderOptions('keep.trailing.zeros', TRUE)
 Gentle introduction to survival analysis.
 \vfill
 
-*Source:*\newline
+*Main source:*\newline
 Harrell, F. E., Jr. (2015). *Regression Modeling strategies*, 2nd edition. Springer
 
 *Chapters:*\newline
@@ -64,7 +65,7 @@ For which the *time until the event* is of interest.
 *\alert{Outcome variable:}*
 
 - $T$ = Time until the event.
-- Often referred to as *failure time*, *survival time*, or *event time*. 
+- Often referred to as *survival time*, *failure time*, or *event time*. 
 
 # Examples
 
@@ -156,7 +157,8 @@ But, *assumption*: Censoring is \alert{non-informative}, i.e., it is independent
 
 # Three main functions
 
-Recall that the outcome variable is $T=$ time until event.
+$T=$ time until event.
+\vfill
 
 - \alert{Survival function:}
 $$
@@ -180,7 +182,7 @@ $$
 \vfill
 
 *\alert{Example:}*\newline
-If event $=$ death, then $S(t)=$ prob. that death occurs after time $t$.
+If event $=$ death, then $S(t)=$ prob. death occurs after time $t$.
 
 *\alert{Properties:}*
 
@@ -252,7 +254,7 @@ These models (still) include \alert{no} covariates, thus:
 - Each subject in the sample is assumed to have the same distribution of $T$.
 \vfill
 
-No formulas.\newline
+No formulas for now.\newline
 Instead: Let's plot.
 
 # Exponential survival distribution
@@ -390,12 +392,10 @@ knitr::include_graphics("include/figures/KaplanMeier.png")
 Recall that $\Lambda(t)=$ accumulated risk up until time $t$.
 
 Hence it makes sense to estimate $\Lambda(t)$ by
-
 $$ \widehat{\Lambda}(t) = \sum_{i:t_i\leq t} \frac{\text{\# failures at }t_i}{\text{\# subjects at risk at } t_i}. $$
 \vfill
 
 Then, 
-
 $$ \widehat{S}(t) = \exp(-\widehat{\Lambda}(t)). $$
 
 Interesting property: $\sum_i\widehat{\Lambda}(Y_i)=$ total number of events.
@@ -481,8 +481,9 @@ knitr::include_graphics("include/figures/HomogeneousModelsParametric.png")
 
 I like Harrell's take on this:
 
-- To assess model fit, use \alert{graphical methods}\newline
-(and no tests; yeah, that's right!).
+- To assess model fit, use \alert{graphical methods}.
+    - No significance tests at this point, great!
+    - But there are some test options, see e.g. Chapter 20.
 \vfill
 
 We show an example: 
@@ -538,7 +539,7 @@ S(t|X)       &= S(t)^{\exp(X\beta)}
 - $S(t)=$ \alert{'underlying' survival function} (for a subject with $X\beta=0$).
 
 # Parametric proportional hazards model
-It is easiest to consider the log-model versions:
+It is easier to consider the log-model versions:
 \begin{alignat*}{2}
 \log\lambda(t|X) &= \log\lambda(t) & &+ X\beta \\
 \log\Lambda(t|X) &= \log\Lambda(t) & &+ X\beta \\
@@ -581,9 +582,29 @@ How to interpret regression coefficient $\beta_j$ ($j=1,\ldots,k$)?
 
 - \alert{Multiplicative} interpretation: 
     - $\lambda(t|X)$ is multiplied by $\exp(\beta_j)$ units when $X_j$ increases by 1 unit \alert{at any time point} $t$, holding all the other predictors constant:
-    $$\frac{\lambda(t|\ldots,X_j+1,\ldots)}{\lambda(t|\ldots,X_j,\ldots)} = \exp(\beta_j).$$
-    - Same for $\lambda(t|X)$.
+    $$\underset{\text{hazard ratio}}{\underbrace{\frac{\lambda(t|\ldots,X_j+1,\ldots)}{\lambda(t|\ldots,X_j,\ldots)}}} = \exp(\beta_j).$$
+    - Same for $\Lambda(t|X)$.
     - Same for $\log S(t|X)$.
+
+# Hazard ratio
+$$\fbox{$\text{HR = }\frac{\lambda(t|\ldots,X_j+1,\ldots)}{\lambda(t|\ldots,X_j,\ldots)}$}$$
+\vfill
+
+- $HR=1$: No effect, i.e., $X_j$ is unrelated to $P(\text{event})$.\newline
+- $HR<1$: Hazard reduction, i.e., $X_j$ is negatively associated with $P(\text{event})$. Larger survival time.\newline
+- $HR>1$: Hazard increase, i.e., $X_j$ is positively associated with $P(\text{event})$. Smaller survival time. 
+
+# Proportional hazards assumption
+*The hazards ratio for any two subjects is \alert{independent of time}:*
+$$
+\frac{\lambda(t|X_{Sub 1})}{\lambda(t|X_{Sub 2})} = 
+\underset{\text{no $t$ here!}}{\underbrace{\exp\left[\beta(X_{Sub 1}-X_{Sub 2})\right]}}
+$$
+\vfill
+
+In particular:
+
+- The hazard curves for different groups (e.g., sex groups) should be proportional and thus cannot cross.
 
 # Example: Exponential PH survival model
 $X\beta = \beta_0+\beta_1X_1+\beta_2X_2+\cdots+\beta_xX_k$.
@@ -611,32 +632,32 @@ S(t|X)       &= \exp(-t^\gamma)^{\exp(X\beta)}
 knitr::include_graphics("include/figures/WEIBULL_PH_model.png")
 ```
 
-# Accelerated failure time models
+<!-- # Accelerated failure time models -->
 
-The predictors in the PH models shown so far have an effect through \alert{multiplication on the hazard function}:
-$$
-\lambda(t|X) = \lambda(t)\exp(X\beta).
-$$
-We can instead make the predictors have a \alert{multiplicative effect on the failure time}. Or, equiv., have an additive effect on the log failure time.
+<!-- The predictors in the PH models shown so far have an effect through \alert{multiplication on the hazard function}: -->
+<!-- $$ -->
+<!-- \lambda(t|X) = \lambda(t)\exp(X\beta). -->
+<!-- $$ -->
+<!-- We can instead make the predictors have a \alert{multiplicative effect on the failure time}. Or, equiv., have an additive effect on the log failure time. -->
 
-- These are \alert{accelerated failure time} models.
-- The failure time accelerates as $X$ increases.
-\vfill
+<!-- - These are \alert{accelerated failure time} models. -->
+<!-- - The failure time accelerates as $X$ increases. -->
+<!-- \vfill -->
 
-General form:
-$$
-\fbox{
-$S(t|X) = \psi\left(
-\frac{\log(t)-X\beta}{\sigma}
-\right)$
-}
-$$
+<!-- General form: -->
+<!-- $$ -->
+<!-- \fbox{ -->
+<!-- $S(t|X) = \psi\left( -->
+<!-- \frac{\log(t)-X\beta}{\sigma} -->
+<!-- \right)$ -->
+<!-- } -->
+<!-- $$ -->
 
-- $\psi$: e.g., normal, logistic, extreme value distribution.
-- $\sigma$: scale parameter.
-\vfill
+<!-- - $\psi$: e.g., normal, logistic, extreme value distribution. -->
+<!-- - $\sigma$: scale parameter. -->
+<!-- \vfill -->
 
-I won't pursue this type of models today, so just FYI.
+<!-- I won't pursue this type of models today, so just FYI. -->
 
 # Cox proportional hazards model
 Seemingly the most popular survival model used.
@@ -693,6 +714,7 @@ Want something else to play afterwards?
 - Check other datasets in the *survival* R package, it has plenty (e.g., *ovarian*, *veteran*).
 - Bayesian analysis on [mastectomy data](https://docs.pymc.io/notebooks/survival_analysis.html) (*HSAUR* R package)
 - [Recidivism](https://socialsciences.mcmaster.ca/jfox/Books/Companion/appendices/Appendix-Cox-Regression.pdf) data (*carData* R package)
+- \ldots
 
 # Lung data
 \footnotesize
@@ -740,26 +762,26 @@ cat(c("\\begin{table}[!h]
 \end{minipage}
 \normalsize
 
-# Lung data
-- $\{Y_i, e_i\}$ completey define the DV $T$ (time until event).
-- $T$ can be computed through the `Surv()` function.
-\vfill
+<!-- # Lung data -->
+<!-- - $\{Y_i, e_i\}$ completey define the DV $T$ (time until event). -->
+<!-- - $T$ can be computed through the `Surv()` function. -->
+<!-- \vfill -->
 
-\footnotesize
-```{r, echo = FALSE, results = 'asis'}
-cat(c("\\begin{table}[!h]
-    \\begin{minipage}[b]{\\linewidth}",
-    table1,
-    "\\end{minipage} 
-\\end{table}"
-))  
-```
-\normalsize
-\vfill
+<!-- \footnotesize -->
+<!-- ```{r, echo = FALSE, results = 'asis'} -->
+<!-- cat(c("\\begin{table}[!h] -->
+<!--     \\begin{minipage}[b]{\\linewidth}", -->
+<!--     table1, -->
+<!--     "\\end{minipage}  -->
+<!-- \\end{table}" -->
+<!-- ))   -->
+<!-- ``` -->
+<!-- \normalsize -->
+<!-- \vfill -->
 
-```{r }
-Surv(lung$time, lung$status) %>% head
-```
+<!-- ```{r } -->
+<!-- Surv(lung$time, lung$status) %>% head -->
+<!-- ``` -->
 
 # In R
 There are loads of packages and options to go about:
@@ -767,6 +789,7 @@ There are loads of packages and options to go about:
 - *rms*
 - *survival*
 - *survminer*
+- \ldots
 \vfill
 
 I'll use functions from various packages depending on functionality and eye-candyness.
@@ -808,7 +831,8 @@ knitr::include_graphics("include/figures/HomogeneousModelsParametric_lung.png")
 ```{r, echo = FALSE}
 coxph(Surv(time, status) ~ sex, data = lung) %>% 
   tidy(exp = FALSE) %>% 
-  kable(digits=3)
+  kable(digits = 2, format = "latex", booktabs = TRUE) %>% 
+  kable_styling(font_size = 9)
 ```
 \vfill
 
@@ -825,20 +849,57 @@ $$
 $$
 \vfill
 
-*(Multiplicative) Interpretation:*\newline
-About .60 times as many females are dying as males, at any time $t$.
+*(Multiplicative) Interpretation:*
 
+- .59 times as many females are dying as males, at any time $t$.
 
+*or, equivalently,*
 
+- Being female reduces the hazard by $(1-.59)100\%=41\%$.
 
+# Lung data: Cox regression
+```{r, echo = FALSE, out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("include/figures/KaplanMeier_lung_sex.png")
+```
 
+# Lung data: Cox regression
+*Adding more predictors.*
+\vfill
 
+```{r, echo = FALSE}
+coxph(Surv(time, status) ~ sex + age + ph.ecog + ph.karno + wt.loss, data = lung) %>% 
+  tidy(exp = FALSE) %>% 
+  kable(digits = 2, format = "latex", booktabs = TRUE) %>% 
+  kable_styling(font_size = 9)
+```
+\vfill
 
+Holding the other predictors constant, \ldots
 
+- $HR_\text{sex}=\exp(-.63)=.53$: \newline 
+\ldots being female *reduces* the hazard rate by a factor of .53 (47%), at any time $t$.
+- $HR_\text{age}=\exp(.02)=1.02$: \newline
+\ldots each extra year *increases* the hazard rate by a factor of 1.02 (2%), at any time $t$.
+- \ldots
 
+# Lung data: Cox regression
+```{r, echo = FALSE, out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("include/figures/KaplanMeier_lung_multreg.png")
+```
 
+# Conclusion
+Survival analysis offers a plethora of statistical models suitable to analyze 'time to event' data.
 
+Much more is to be said on this topic. For instance:
 
+- More on assumption checking\newline
+(a lot of plotting options are available, also a few tests\ldots).
+- More plotting possibilities.
+- Model comparison.
+- Bayesian survival analysis!
+- Accelerated failure time models.
+- More complex models.
+- \ldots
 
 
 
