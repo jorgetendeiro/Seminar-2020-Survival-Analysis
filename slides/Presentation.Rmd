@@ -13,7 +13,7 @@ author: |
   | \faGlobe\ ```www.jorgetendeiro.com```
   | \faGithub\ ```jorgetendeiro/Seminar-2020-Survival-Analysis```
 fontsize: 10pt
-date: "07 May 2020"
+date: "20 May 2020"
 output:
  beamer_presentation:
  # keep_tex: true
