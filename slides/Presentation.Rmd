@@ -165,7 +165,7 @@ $T=$ time until event.
 $$
 S(t) = P(T > t) = 1 - F(t),
 $$
-where $F = P(T\leq t)$ is distribution function of $T$.
+where $F = P(T\leq t)$ is the distribution function of $T$.
 
 - \alert{Cumulative hazard function:}
 $$
@@ -311,13 +311,14 @@ There are several options available to estimate the survival function (and frien
 Here we will briefly go through only a few:
 
 - Not parametric and homogeneous (i.e., without predictors):
-- Kaplan-Meier estimator
-- Altschuler-Nelson estimator
+    - Kaplan-Meier estimator
+    - Altschuler-Nelson estimator.\newline
 - Parametric:
-- Homogeneous (i.e., no predictors): Exponential, Weibull, normal, logistic, log-normal, log-logistic,\ldots
-- Proportional hazards models
-- Semi-parametric:
-- Cox proportional hazards regression model
+    - Homogeneous (i.e., no predictors):\newline
+    Exponential, Weibull, normal, logistic, log-normal, log-logistic,\ldots
+    - Proportional hazards models
+    - Semi-parametric:\newline
+    Cox proportional hazards regression model.
 \vfill
 
 After a brief intro to each, I will use them all on an empirical dataset.
@@ -536,8 +537,8 @@ Here are the 'friends':
 S(t|X)       &= S(t)^{\exp(X\beta)}
 \end{align*}
 
-- $\Lambda(t)=$ \alert{'underlying' cumulative hazard function} (for a subject with $X\beta=0$).
-- $S(t)=$ \alert{'underlying' survival function} (for a subject with $X\beta=0$).
+- $\Lambda(t)=$ \alert{'underlying' cumulative hazard function}\newline (for a subject with $X\beta=0$).
+- $S(t)=$ \alert{'underlying' survival function}\newline (for a subject with $X\beta=0$).
 
 # Parametric proportional hazards model
 It is easier to consider the log-model versions:
@@ -565,10 +566,11 @@ How to interpret regression coefficient $\beta_j$ ($j=1,\ldots,k$)?
 \end{alignat*}
 \vfill
 
-- \alert{Additive} interpretation: 
+\alert{Additive} interpretation: 
+
 - $\log\lambda(t|X)$ increases by $\beta_j$ units when $X_j$ increases by 1 unit \alert{at any time point} $t$, holding all the other predictors constant:
 $$\log\lambda(t|\ldots,X_j+1,\ldots) = \log\lambda(t|\ldots,X_j,\ldots) \alert{+ \beta_j}.$$
-- Same for $\log\lambda(t|X)$.
+- Same for $\log\Lambda(t|X)$.
 
 # Parametric proportional hazards model
 How to interpret regression coefficient $\beta_j$ ($j=1,\ldots,k$)?
@@ -581,7 +583,8 @@ How to interpret regression coefficient $\beta_j$ ($j=1,\ldots,k$)?
 \end{alignat*}
 \vfill
 
-- \alert{Multiplicative} interpretation: 
+\alert{Multiplicative} interpretation: 
+
 - $\lambda(t|X)$ is multiplied by $\exp(\beta_j)$ units when $X_j$ increases by 1 unit \alert{at any time point} $t$, holding all the other predictors constant:
 $$\underset{\text{hazard ratio}}{\underbrace{\frac{\lambda(t|\ldots,X_j+1,\ldots)}{\lambda(t|\ldots,X_j,\ldots)}}} = \exp(\beta_j).$$
 - Same for $\Lambda(t|X)$.
@@ -671,9 +674,9 @@ $$
 
 - Looks the same as the general PH model!
 - But, it is \alert{semi}parametric:
-- It makes a parametric assumption in $X\beta = \beta_1X_1+\cdots+\beta_xX_k$.\newline
+    - It makes a parametric assumption in $X\beta = \beta_1X_1+\cdots+\beta_xX_k$.\newline
 (NB: \alert{No intercept} is typical for the Cox PH model.)
-- But, it assumes \alert{no parametric model} for the hazard function $\lambda(t)$.\newline
+    - But, it assumes \alert{no parametric model} for the hazard function $\lambda(t)$.\newline
 Actually, it won't even be estimated!
 \vfill
 
